@@ -39,7 +39,7 @@ public class EDDActivity extends AppCompatActivity {
 
     String alert;    // message to display when tasks is not schedulable
     int updateFreq = 1000;
-    int time;
+    int time, time1, time2;   // time counting for whole system, when switch1 on, when switch2 on
     Handler handler;
     Thread updateThread;
 
@@ -69,6 +69,8 @@ public class EDDActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     time = 0;
+                    time1 = 0;
+                    time2 = 0;
                     computeSchedule();
                     alert();
                     enableAllLight();
@@ -157,16 +159,21 @@ public class EDDActivity extends AppCompatActivity {
     private void updateTime() {
         timeTV.setText("Thời gian " + String.valueOf(time) + "s");
         time++;
+        if (switch1.isChecked()) {
+            time1++;
+        } else {
+            time2++;
+        }
     }
 
     private void updateLight() {
         if (switch1.isChecked()) {
             // if schedulable then turn off previous light and turn on current light
             if (isSchedulable123 == 1) {
-                if (time > 0) {
-                    turnOffLight(schedule123[time - 1] - 1);
+                if (time1 > 0) {
+                    turnOffLight(schedule123[time1 - 1] - 1);
                 }
-                turnOnLight(schedule123[time] - 1);
+                turnOnLight(schedule123[time1] - 1);
             }
             if (isSchedulable45 == 1) {
                 if (time > 0) {
@@ -176,10 +183,10 @@ public class EDDActivity extends AppCompatActivity {
             }
         } else { // switch2 is checked
             if (isSchedulable6789 == 1) {
-                if (time > 0) {
-                    turnOffLight(schedule6789[time - 1] - 1);
+                if (time2 > 0) {
+                    turnOffLight(schedule6789[time2 - 1] - 1);
                 }
-                turnOnLight(schedule6789[time] - 1);
+                turnOnLight(schedule6789[time2] - 1);
             }
             if (isSchedulable45 == 1) {
                 if (time > 0) {
