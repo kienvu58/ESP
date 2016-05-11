@@ -68,12 +68,11 @@ public class EDDActivity extends AppCompatActivity {
                     alert();
                     enableAllLight();
                     disableLight6789();
+                    switch1.setChecked(true);
                     switch1.setEnabled(true);
                     switch2.setEnabled(true);
                 } else {
                     disableAllLight();
-                    switch1.setChecked(true);
-                    switch2.setChecked(false);
                     switch1.setEnabled(false);
                     switch2.setEnabled(false);
                 }
@@ -173,7 +172,7 @@ public class EDDActivity extends AppCompatActivity {
         } else { // switch2 is checked
             if (isSchedulable6789 == 1) {
                 if (time > 0) {
-                    turnOffLight(schedule123[time - 1] - 1);
+                    turnOffLight(schedule6789[time - 1] - 1);
                 }
                 turnOnLight(schedule6789[time] - 1);
             }

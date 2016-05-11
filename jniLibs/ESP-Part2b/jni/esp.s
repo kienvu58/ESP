@@ -194,23 +194,24 @@ RM_schedule:
 	stmfd	sp!, {r4, r5, r6, r7, r8, r9, r10, fp, lr}
 	add	fp, sp, #32
 	sub	sp, sp, #36
-	str	r3, [fp, #-64]
+	str	r3, [fp, #-68]
 	mov	r3, r3, asl #4
 	add	r3, r3, #8
 	sub	sp, sp, r3
 	cmp	ip, #0
-	mov	r8, sp
-	ldr	r4, [fp, #8]
+	mov	r4, sp
+	ldr	r10, [fp, #8]
 	ble	.L50
-	sub	r9, r1, #4
-	mov	r4, r9
+	sub	r8, r1, #4
+	add	r9, r0, ip, lsl #2
+	mov	r4, r8
+	mov	r10, r9
 	mov	r6, r0
 	mov	r8, #0
 	mov	r9, #0
 	sub	r7, r2, #4
-	add	r10, r0, ip, lsl #2
 	add	r5, sp, #4
-	str	sp, [fp, #-68]
+	str	sp, [fp, #-60]
 .L51:
 	ldr	r2, [r4, #4]!
 	ldr	r3, [r7, #4]!
@@ -232,9 +233,10 @@ RM_schedule:
 	mov	r9, r1
 	add	r5, r5, #16
 	bne	.L51
-	ldr	r5, [fp, #-64]
+	ldr	r5, [fp, #-68]
 	mov	r0, #1
 	mov	r1, r5
+	ldr	r4, [fp, #-60]
 	str	r8, [fp, #-60]
 	str	r9, [fp, #-56]
 	bl	__aeabi_idiv
@@ -243,50 +245,45 @@ RM_schedule:
 	mov	r3, r1
 	mov	r0, #0
 	mov	r1, #1073741824
-	ldr	r8, [fp, #-68]
-	ldr	r4, [fp, #8]
+	ldr	r10, [fp, #8]
 	bl	pow
+	mov	r2, #0
+	ldr	r3, .L103
+	bl	__aeabi_dsub
 	mov	r6, r0
 	mov	r0, r5
 	mov	r7, r1
 	bl	__aeabi_i2d
-	mov	r2, #0
-	mov	r9, r0
-	mov	r10, r1
-	ldr	r3, .L103
-	mov	r0, r6
-	mov	r1, r7
-	bl	__aeabi_dsub
 	mov	r2, r0
 	mov	r3, r1
-	mov	r0, r9
-	mov	r1, r10
+	mov	r0, r6
+	mov	r1, r7
 	bl	__aeabi_dmul
 	sub	r3, fp, #60
 	ldmia	r3, {r2-r3}
 	bl	__aeabi_dcmplt
 	cmp	r0, #0
 	bne	.L53
-	str	r8, [fp, #-60]
-	mov	r9, r8
-	add	r10, r8, #12
-	str	r8, [fp, #-68]
-	mov	r8, r0
-	ldr	r7, [fp, #-64]
-	add	r8, r8, #1
-	cmp	r7, r8
-	str	r4, [fp, #8]
-	ble	.L76
-.L101:
-	mov	r5, r9
-	mov	r6, r8
+	str	r10, [fp, #8]
+	mov	r10, r0
+	ldr	r7, [fp, #-68]
+	add	r10, r10, #1
+	cmp	r7, r10
+	str	r4, [fp, #-60]
+	mov	r8, r4
+	add	r9, r4, #12
+	str	r4, [fp, #-64]
+	ble	.L77
+.L100:
+	mov	r5, r8
+	mov	r6, r10
 .L57:
-	ldr	r2, [r9, #12]
+	ldr	r2, [r8, #12]
 	ldr	r3, [r5, #28]
 	add	ip, r5, #16
 	cmp	r2, r3
 	ble	.L56
-	sub	lr, r10, #12
+	sub	lr, r9, #12
 	sub	r4, fp, #52
 	ldmia	lr, {r0, r1, r2, r3}
 	stmia	r4, {r0, r1, r2, r3}
@@ -299,125 +296,134 @@ RM_schedule:
 	cmp	r7, r6
 	mov	r5, ip
 	bne	.L57
-	add	r8, r8, #1
-	cmp	r7, r8
+	add	r10, r10, #1
+	cmp	r7, r10
+	add	r8, r8, #16
 	add	r9, r9, #16
-	add	r10, r10, #16
-	bgt	.L101
-.L76:
+	bgt	.L100
+.L77:
 	mov	r5, #1
 	mov	r6, #0
-	ldr	r4, [fp, #8]
+	ldr	r10, [fp, #8]
 	ldr	r7, [fp, #-60]
-	ldr	r10, [fp, #-64]
+	ldr	r9, [fp, #-68]
 .L55:
 	cmp	r5, #0
-	ldr	r9, [r7, #12]
-	beq	.L77
-	mov	r8, r5
-	mov	r0, r9
+	ldr	r8, [r7, #12]
+	beq	.L78
+	mov	r4, r5
+	mov	r0, r8
 	b	.L60
-.L78:
-	mov	r8, r1
+.L79:
+	mov	r4, r1
 .L60:
-	mov	r1, r8
+	mov	r1, r4
 	bl	__aeabi_idivmod
 	cmp	r1, #0
-	mov	r0, r8
-	bne	.L78
+	mov	r0, r4
+	bne	.L79
 .L59:
-	mul	r0, r5, r9
-	mov	r1, r8
+	mul	r0, r5, r8
+	mov	r1, r4
 	bl	__aeabi_idiv
 	add	r6, r6, #1
-	cmp	r10, r6
-	str	r0, [r4]
-	add	r7, r7, #16
+	cmp	r9, r6
+	str	r0, [r10]
 	mov	r5, r0
+	add	r7, r7, #16
 	bne	.L55
-	cmp	r0, #0
-	ldr	r8, [fp, #-68]
-	ble	.L63
-.L75:
+	cmp	r0, #1000
+	movgt	r3, #1000
+	ldr	r4, [fp, #-64]
+	strgt	r3, [r10]
+	ble	.L101
+.L62:
 	mov	r3, #0
-	mvn	r1, #0
+	mvn	r0, #0
 	ldr	r2, [fp, #4]
 	sub	r2, r2, #4
-.L62:
-	str	r1, [r2, #4]!
-	ldr	r0, [r4]
+.L65:
+	str	r0, [r2, #4]!
+	ldr	r1, [r10]
 	add	r3, r3, #1
-	cmp	r0, r3
-	bgt	.L62
-	ldr	r3, [fp, #-64]
+	cmp	r1, r3
+	bgt	.L65
+.L66:
+	ldr	r3, [fp, #-68]
 	cmp	r3, #0
-	ble	.L71
-.L63:
-	mov	r10, r8
-	mov	r5, #0
-.L72:
-	cmp	r0, #0
-	ble	.L68
-	ldr	r7, [r10, #12]
-	ldr	r6, [fp, #4]
-	mov	ip, r7
-	mov	r3, r7, asl #2
-	str	r3, [fp, #-60]
-.L73:
-	rsb	r3, r7, ip
-	cmp	r3, r0
-	bge	.L98
-	ldr	lr, [r10, #4]
-	cmp	lr, #0
-	ble	.L98
+	ble	.L64
+	mov	r6, #0
+	ldr	ip, [r10]
+	str	r4, [fp, #-60]
+.L74:
 	cmp	ip, #0
-	mov	r9, ip
-	movgt	r1, r6
+	ble	.L71
+	ldr	r3, [fp, #-60]
+	ldr	r7, [fp, #4]
+	ldr	r8, [r3, #12]
+	mov	lr, r8
+	mov	r3, r8, asl #2
+	str	r3, [fp, #-64]
+.L75:
+	rsb	r3, r8, lr
+	cmp	r3, ip
+	bge	.L98
+	ldr	r2, [fp, #-60]
+	ldr	r5, [r2, #4]
+	cmp	r5, #0
+	ble	.L98
+	cmp	lr, #0
+	mov	r9, lr
+	movgt	r1, r7
 	movgt	r2, #0
-	bgt	.L67
-	b	.L66
+	bgt	.L70
+	b	.L69
 .L102:
+	cmp	r2, r5
+	bge	.L69
 	cmp	r2, lr
-	bge	.L66
-	cmp	r2, ip
-	bge	.L66
-.L67:
+	bge	.L69
+.L70:
 	ldr	r0, [r1], #4
 	add	r3, r3, #1
 	cmn	r0, #1
-	ldreq	r0, [r8, r5, asl #4]
+	ldreq	r0, [r4, r6, asl #4]
 	addeq	r2, r2, #1
 	streq	r0, [r1, #-4]
-	ldr	r0, [r4]
-	cmp	r0, r3
+	ldreq	ip, [r10]
+	cmp	ip, r3
 	bgt	.L102
-.L66:
-	ldr	r3, [fp, #-60]
-	cmp	r9, r0
-	add	ip, ip, r7
-	add	r6, r6, r3
-	blt	.L73
-.L68:
+.L69:
 	ldr	r3, [fp, #-64]
-	add	r5, r5, #1
-	cmp	r3, r5
-	add	r10, r10, #16
-	ble	.L71
-	ldr	r0, [r4]
-	b	.L72
-.L98:
-	mov	r9, ip
-	b	.L66
+	cmp	r9, ip
+	add	lr, lr, r8
+	add	r7, r7, r3
+	blt	.L75
 .L71:
+	ldr	r3, [fp, #-68]
+	add	r6, r6, #1
+	cmp	r3, r6
+	ldr	r3, [fp, #-60]
+	add	r3, r3, #16
+	str	r3, [fp, #-60]
+	bne	.L74
+.L64:
 	mov	r0, #1
 	sub	sp, fp, #32
 	@ sp needed
 	ldmfd	sp!, {r4, r5, r6, r7, r8, r9, r10, fp, pc}
-.L77:
-	mov	r8, r9
+.L98:
+	mov	r9, lr
+	b	.L69
+.L78:
+	mov	r4, r8
 	b	.L59
+.L101:
+	cmp	r0, #0
+	bgt	.L62
+	b	.L66
 .L50:
-	ldr	r5, [fp, #-64]
+	ldr	r5, [fp, #-68]
 	mov	r0, #1
 	mov	r1, r5
 	bl	__aeabi_idiv
@@ -432,24 +438,24 @@ RM_schedule:
 	mov	r7, r1
 	bl	__aeabi_i2d
 	mov	r2, #0
-	mov	r9, r0
-	mov	r10, r1
+	mov	r8, r0
+	mov	r9, r1
 	ldr	r3, .L103
 	mov	r0, r6
 	mov	r1, r7
 	bl	__aeabi_dsub
 	mov	r2, r0
 	mov	r3, r1
-	mov	r0, r9
-	mov	r1, r10
+	mov	r0, r8
+	mov	r1, r9
 	bl	__aeabi_dmul
 	mov	r3, #0
 	mov	r2, #0
 	bl	__aeabi_dcmplt
 	cmp	r0, #0
 	moveq	r3, #1
-	streq	r3, [r4]
-	beq	.L75
+	streq	r3, [r10]
+	beq	.L62
 .L53:
 	mov	r0, #0
 	sub	sp, fp, #32

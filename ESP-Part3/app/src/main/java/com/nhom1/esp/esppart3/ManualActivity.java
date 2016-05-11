@@ -34,12 +34,11 @@ public class ManualActivity extends AppCompatActivity {
                 if (isChecked) {
                     enableAllLight();
                     disableLight6789();
+                    switch1.setChecked(true);
                     switch1.setEnabled(true);
                     switch2.setEnabled(true);
                 } else {
                     disableAllLight();
-                    switch1.setChecked(true);
-                    switch2.setChecked(false);
                     switch1.setEnabled(false);
                     switch2.setEnabled(false);
                 }

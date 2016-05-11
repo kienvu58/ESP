@@ -7,19 +7,29 @@
     <string name="c">C</string>
     <string name="d">D</string>
     <string name="t">T</string>
-    <string name="h1">Nhà 1</string>
-    <string name="h2">Nhà 2</string>
-    <string name="h3">Nhà 3</string>
-    <string name="h4">Nhà 4</string>
-    <string name="h5">Nhà 5</string>
-    <string name="h6">Nhà 6</string>
-    <string name="h7">Nhà 7</string>
-    <string name="h8">Nhà 8</string>
-    <string name="h9">Nhà 9</string>
-    <string name="run">Run</string>
+    <string name="house1">Nhà 1</string>
+    <string name="house2">Nhà 2</string>
+    <string name="house3">Nhà 3</string>
+    <string name="house4">Nhà 4</string>
+    <string name="house5">Nhà 5</string>
+    <string name="house6">Nhà 6</string>
+    <string name="house7">Nhà 7</string>
+    <string name="house8">Nhà 8</string>
+    <string name="house9">Nhà 9</string>
+    <string name="h1">1</string>
+    <string name="h2">2</string>
+    <string name="h3">3</string>
+    <string name="h4">4</string>
+    <string name="h5">5</string>
+    <string name="h6">6</string>
+    <string name="h7">7</string>
+    <string name="h8">8</string>
+    <string name="h9">9</string>
 
     <string name="ct1">Công tắc 1</string>
     <string name="ct2">Công tắc 2</string>
 
     <string name="time">Thời gian 0s</string>
+    <string name="ct1_short">CT 1</string>
+    <string name="ct2_short">CT 2</string>
 </resources>

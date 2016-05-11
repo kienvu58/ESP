@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -76,6 +77,7 @@ int gcd(int a, int b) {
     while (a != 0) {
         c = a; a = b%a;  b = c;
     }
+ 
     return b;
 }
 
@@ -106,6 +108,7 @@ int RM_schedule(int id[], int C[], int T[], int nTasks, int result[], int *nResu
 
     // checks if tasks are schedulable
     double B = nTasks * (pow(2, 1/nTasks) - 1);
+
     if (U > B) {
         return 0;
     }
@@ -126,6 +129,10 @@ int RM_schedule(int id[], int C[], int T[], int nTasks, int result[], int *nResu
     for (i = 0; i < nTasks; i++) {
         int divisor = gcd(*nResults, task[i].T);
         *nResults = (*nResults * task[i].T) / divisor;
+    }
+
+    if (*nResults > 1000) {
+        *nResults = 1000;
     }
 
     // initializes
